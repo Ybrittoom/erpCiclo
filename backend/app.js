@@ -1,5 +1,6 @@
 const express = require("express")
 const cors = require("cors")
+const PORT = process.env.PORT || 3000
 
 const app = express()
 
@@ -12,7 +13,7 @@ app.use(express.json())//usando para mostrar os erros atravez dos JSON
 const userRoutes = require("./src/modules/users/user.routes")
 
 //usando as rotas
-app.use('/user', userRoutes)
+app.use('/user', userRoutes.router)//é um objeto e nao uma funçaos
 
 //rota de teste
 app.get('/teste', (req, res) => {
@@ -21,6 +22,6 @@ app.get('/teste', (req, res) => {
 
 
 //iniciando o servidor 
-app.listen(process.env.PORT || 8081, () => {
-    console.log(`servidor rodando na porta ${PORT || 8081}`)
+app.listen(PORT, () => {
+    console.log(`servidor rodando na porta ${PORT/*sempre definir as variaveis do .env antes de usar a mesma */}`)
 })

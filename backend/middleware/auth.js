@@ -10,7 +10,8 @@ module.exports = (req, res, next) => {
     }
 
     //formato: bearer token
-    const parts =  authHeader.split('')
+    const parts =  authHeader.split(' ')
+    // ' ' devide pelo espaço e nao por caractere igual o ''
 
     if (parts.length !== 2) {
         return res.status(401).json({ error: "Token"})
@@ -18,12 +19,12 @@ module.exports = (req, res, next) => {
 
     const [scheme , token ] = parts
 
-    if (!/^Bearer$/i.tes(scheme)) {
+    if (!/^Bearer$/i.test(scheme)) {
         return res.status(401).json({error: "Token invalido!"})
     }
 
     //validar o token
-    jwt.verify(token, authConfig.scret, (err, decoded) => {
+    jwt.verify(token, authConfig.secret, (err, decoded) => {
         if (err) {
             return res.status(401).json({ error : "Token invalido ou expirado "})
         }
@@ -33,6 +34,6 @@ module.exports = (req, res, next) => {
             role: decoded.role
         }
 
-        return next
+        return next()
     })
 }
