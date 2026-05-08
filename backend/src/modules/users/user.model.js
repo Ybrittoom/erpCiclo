@@ -7,9 +7,9 @@ const userModel = {
 
             let querySQL = "SELECT * FROM funcionarios"
 
-            const result = await pool.request().query(querySQL);
+            const result = await pool.query(querySQL);
 
-            return result.recordset
+            return result.rows
         } catch (error) {
             console.error("Erro ao buscar os funcionarios: ", error)
             throw error
@@ -30,18 +30,23 @@ const userModel = {
     createUser: async (user) => {
         const pool = getConnection();
 
-        const result = await pool.request()
-            .input("name", user.name)
-            .input("email", user.email)
-            .input("password_hash", user.password_hash)
-            .input("position", user.position)
-            .query(`
-                    INSERT INTO users (name, email, password_hash, position)
-                    VALUES (@name, @email, @password_hash, @position)
-                `)
+        const query = `
+            INSERT INTO users 
+            (name, email, password_hash, position)
+            VALUES ($1, $2, $3, $4)
+            RETURNING *
+        `
 
-            console.log("Usuario criado com sucesso")
-            return result
+        const values = [
+            user.name,
+            user.email,
+            user.password_hash,
+            user.posrition
+        ]
+
+        const result = await pool.query(query, values)
+
+        return result.rows[0]
     }
 }
 

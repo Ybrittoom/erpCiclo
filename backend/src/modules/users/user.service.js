@@ -3,7 +3,7 @@ const { userModel } = require("./user.model")
 const userService = {
     getAllUsers: async (currentUser/*Usuario que esta acessando o site ex: o dono  */) => {
 
-        //regra, so o dono pode acessar os usuarios
+        //regra, so o dono pode acessar os usuario  s
         if (currentUser.position !== "CEO") {
             throw new Error("Acesso negado")
         }
