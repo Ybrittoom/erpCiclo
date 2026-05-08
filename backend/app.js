@@ -13,7 +13,8 @@ app.use(express.json())//usando para mostrar os erros atravez dos JSON
 const userRoutes = require("./src/modules/users/user.routes")
 
 //usando as rotas
-app.use('/user', userRoutes.router)//é um objeto e nao uma funçaos
+app.get('/user', userRoutes.router)
+app.post('/user', userRoutes.router)//é um objeto e nao uma funçaos
 
 //rota de teste
 app.get('/teste', (req, res) => {

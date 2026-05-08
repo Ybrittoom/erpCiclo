@@ -19,5 +19,6 @@ async function getConnetion() {
 }
 
 module.exports = {
-    pool
+    pool,
+    getConnetion
 }

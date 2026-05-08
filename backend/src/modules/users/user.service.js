@@ -4,7 +4,7 @@ const userService = {
     getAllUsers: async (currentUser/*Usuario que esta acessando o site ex: o dono  */) => {
 
         //regra, so o dono pode acessar os usuarios
-        if (currentUser.role !== "CEO") {
+        if (currentUser.position !== "CEO") {
             throw new Error("Acesso negado")
         }
 
@@ -12,9 +12,9 @@ const userService = {
     },
 
     createUser: async (data, currentUser) => {
-        if (currentUser.role !== "CEO") {
-            throw new Error("Acesso negado!")
-        }
+        // if (currentUser.position !== "CEO") {
+        //     throw new Error("Acesso negado!")
+        // }
 
         return await userModel.createUser(data)//dados do novo funcionario
     }
@@ -22,4 +22,6 @@ const userService = {
 
 }
 
-module.exports = userService
+module.exports = {
+    userService
+}
