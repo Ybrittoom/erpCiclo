@@ -9,18 +9,16 @@ app.use(cors())
 app.use(express.json())//usando para mostrar os erros atravez dos JSON
 
 //importando as rotas
-
+const authRoutes = require("./src/auth/auth.routes")
 const userRoutes = require("./src/modules/users/user.routes")
 
-//usando as rotas
-app.get('/user', userRoutes.router)
-app.post('/user', userRoutes.router)//é um objeto e nao uma funçaos
+app.use('api/auth', authRoutes)
+app.use('api/users', userRoutes)
 
-//rota de teste
+// Rota de teste
 app.get('/teste', (req, res) => {
-    res.send('API esta rodando')
+    res.json({ message: 'API está rodando' })
 })
-
 
 //iniciando o servidor 
 app.listen(PORT, () => {

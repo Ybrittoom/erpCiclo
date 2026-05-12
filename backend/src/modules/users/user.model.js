@@ -1,14 +1,10 @@
-const { pool , getConnection } = require("../../config/db")
+const { pool, getConnection } = require("../../config/db")
 
 const userModel = {
     findAll: async () => {
         try {
-            const pool = await getConnection()
-
             let querySQL = "SELECT * FROM funcionarios"
-
             const result = await pool.query(querySQL);
-
             return result.rows
         } catch (error) {
             console.error("Erro ao buscar os funcionarios: ", error)
@@ -17,36 +13,49 @@ const userModel = {
     },
 
     findByEmail: async (email) => {
-        const pool = await getConnection()
+        try {
+            const querySQL = 'SELECT * FROM employees WHERE email = $1'
+            const result = await pool.query(querySQL, [email])
 
-        const result = await pool.request()
-            .input("email",  email)
-            .query("SELECT * FROM users WHERE email = @email")
-
-        console.log("Usuario encontrado consucesso")
-        return result.recordset[0]
+            console.log("Usuarios encontrado com sucesso")
+            return result.rows[0]
+        } catch (error) {
+            console.error("Erro ao buscar usuario: ", error)
+            throw error
+        }
     },
 
     createUser: async (user) => {
-        const pool = getConnection();
-
-        const query = `
-            INSERT INTO users 
-            (name, email, password_hash, position)
-            VALUES ($1, $2, $3, $4)
-            RETURNING *
+       try {
+        const querySQL = `
+            INSERT INTO employees
+            (
+                name,
+                email,
+                password_hash,
+                position
+            )
+            VALUES (
+                $1,
+                $2,
+                $3,
+                $4
+            )
+            RETURNIG *
         `
-
         const values = [
             user.name,
             user.email,
             user.password_hash,
-            user.posrition
+            user.position
         ]
-
-        const result = await pool.query(query, values)
-
+                                        //passa a query e os valores
+        const result = await pool.query(querySQL, values)
         return result.rows[0]
+       } catch (error) {
+        console.error("Erro ao criar usuarios: ", error)
+        throw error
+       }
     }
 }
 
