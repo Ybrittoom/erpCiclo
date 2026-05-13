@@ -6,14 +6,17 @@ const app = express()
 
 //middleware globais do projetos completo
 app.use(cors())
-app.use(express.json())//usando para mostrar os erros atravez dos JSON
+app.use(express.json())//converter JSON recebido no body da requisição.
 
 //importando as rotas
 const authRoutes = require("./src/auth/auth.routes")
 const userRoutes = require("./src/modules/users/user.routes")
 
-app.use('api/auth', authRoutes)
-app.use('api/users', userRoutes)
+console.log(authRoutes)
+console.log(userRoutes)
+
+app.use('/api/auth', authRoutes)
+app.use('/api/users', userRoutes)
 
 // Rota de teste
 app.get('/teste', (req, res) => {

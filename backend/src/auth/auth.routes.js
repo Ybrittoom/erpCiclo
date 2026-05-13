@@ -4,6 +4,11 @@ const authController = require('./auth.controller')
 
 router.post('/login', authController.login)
 
-module.exports = {
-    router
-}
+module.exports = router
+/*
+    ou importa assim 
+
+    module.exports = {
+        router
+    }
+*/
