@@ -12,6 +12,7 @@ app.use(express.json())//converter JSON recebido no body da requisição.
 const authRoutes = require("./src/auth/auth.routes")
 const userRoutes = require("./src/modules/users/user.routes")
 
+console.log('O QUE ESTAMOS RECEBENDO DAS ROTAS')
 console.log(authRoutes)
 console.log(userRoutes)
 
