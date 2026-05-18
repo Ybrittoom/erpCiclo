@@ -3,6 +3,9 @@ const { userModel } = require("./user.model")
 const userService = {
     getAllUsers: async (currentUser/*Usuario que esta acessando o site ex: o dono  */) => {
 
+        if (!currentUser) {
+            throw new Error("Nao autenticado")
+        }
         //regra, so o dono pode acessar os usuario  s
         if (currentUser.position !== "CEO") {
             throw new Error("Acesso negado")
